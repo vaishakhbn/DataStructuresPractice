@@ -6,16 +6,26 @@ public class TrinaryNode
 	TrinaryNode left;
 	TrinaryNode middle;
 	TrinaryNode right;
+	public TrinaryNode(int i) 
+	{
+		this.data = i;
+		this.left = this.middle = this.right =null;
+	}
+
+	public TrinaryNode() 
+	{
+		
+	}
+
 	public TrinaryNode newNode(int data)
 	{
-		TrinaryNode root = new TrinaryNode();
-		root.data = data;
+		TrinaryNode root = new TrinaryNode(data);
 		return root;
 	}
 
 	public TrinaryNode insert(int data, TrinaryNode t)
 	{
-		if(t == null || t.data == 0)
+		if(t == null)
 			return newNode(data);
 		if(data<t.data)
 			t.left = insert(data,t.left);
@@ -41,17 +51,32 @@ public class TrinaryNode
 			display(root.right);
 		}
 	}
+	
 	public TrinaryNode delete(TrinaryNode t, int data)
 	{
-		if(t.data == data || t.data == 0)
+		if(t.data == data)
 		{
 			if(t.middle!=null)
 			{
 				t.middle = null;
 			}
-			else if(t.middle==t.right)
+			else if((t.left==t.right))
 			{
 				t = null;
+			}
+			else if(t.left!=null && t.right!=null)
+			{
+				TrinaryNode successor = findReplacementNode(t.right);
+				t.data = successor.data;
+				return t;
+			}
+			else if(t.left!=null)
+			{
+				return t.left;
+			}
+			else if(t.right!=null)
+			{
+				return t.right;
 			}
 		}
 		else if (t.data < data)
@@ -65,6 +90,18 @@ public class TrinaryNode
 				t.left = delete(t.left,data);
 		}
 		return t;
+	}
+
+	private TrinaryNode findReplacementNode(TrinaryNode t) 
+	{
+		if(t.left==null)
+		{
+			return t;
+		}
+		else
+		{
+			return findReplacementNode(t.left);
+		}
 	}
 	
 }
