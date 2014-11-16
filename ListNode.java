@@ -39,5 +39,31 @@ public class ListNode
 		cur.next = null;
 		return head;
 	}
+	public ListNode sortedInsert(int i, ListNode root) 
+	{
+		ListNode cur = root;
+		ListNode temp = new ListNode(i);
+		if(root==null)
+		{
+			return temp;
+		}
+		else if(temp.data > root.data)
+		{
+			temp.next = root;
+			root = temp;
+			return root;
+		}
+		else
+		{
+			while(cur.next!=null && temp.data<cur.next.data)
+			{
+				cur = cur.next;
+			}
+			temp.next = cur.next;
+			cur.next = temp;
+			return root;
+		}
+		
+	}
 	
 }
